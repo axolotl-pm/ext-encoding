@@ -66,7 +66,7 @@ READER_METHOD(__construct) {
 	zend_string* buffer = NULL;
 	byte_buffer_reader_zend_object* object;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(buffer)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -79,7 +79,7 @@ READER_METHOD(__construct) {
 }
 
 READER_METHOD(getData) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = READER_THIS();
 	RETURN_STR_COPY(object->reader.buffer);
@@ -89,7 +89,7 @@ READER_METHOD(readByteArray) {
 	zend_long zlength;
 	byte_buffer_reader_zend_object* object;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(zlength)
 		ZEND_PARSE_PARAMETERS_END();
 
@@ -115,7 +115,7 @@ READER_METHOD(readByteArray) {
 }
 
 READER_METHOD(getOffset) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 	auto object = READER_THIS();
 	RETURN_LONG(object->reader.offset);
 }
@@ -123,7 +123,7 @@ READER_METHOD(getOffset) {
 READER_METHOD(setOffset) {
 	zend_long offset;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(offset)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -137,14 +137,14 @@ READER_METHOD(setOffset) {
 }
 
 READER_METHOD(getUnreadLength) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = READER_THIS();
 	RETURN_LONG(ZSTR_LEN(object->reader.buffer) - object->reader.offset);
 }
 
 READER_METHOD(__serialize) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = READER_THIS();
 	array_init(return_value);
@@ -189,7 +189,7 @@ READER_METHOD(__unserialize) {
 }
 
 READER_METHOD(__debugInfo) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = READER_THIS();
 	array_init(return_value);
@@ -203,7 +203,7 @@ zend_class_entry* init_class_ByteBufferReader(void) {
 	byte_buffer_reader_ce->create_object = reader_new;
 
 	byte_buffer_reader_zend_object_handlers = *zend_get_std_object_handlers();
-	byte_buffer_reader_zend_object_handlers.offset = XtOffsetOf(byte_buffer_reader_zend_object, std);
+	byte_buffer_reader_zend_object_handlers.offset = offsetof(byte_buffer_reader_zend_object, std);
 	byte_buffer_reader_zend_object_handlers.clone_obj = reader_clone;
 	byte_buffer_reader_zend_object_handlers.free_obj = reader_free;
 	byte_buffer_reader_zend_object_handlers.compare = reader_compare_objects;

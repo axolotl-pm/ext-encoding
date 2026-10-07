@@ -65,7 +65,7 @@ void ZEND_FASTCALL zif_readType(INTERNAL_FUNCTION_PARAMETERS) {
 	zval* object_zv;
 	byte_buffer_reader_zend_object* object;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS_EX(object_zv, byte_buffer_reader_ce, 0, 0)
 	ZEND_PARSE_PARAMETERS_END_EX(return);
 
@@ -78,7 +78,7 @@ template<typename TValue, readTypeFunc_t<TValue> readTypeFunc, typename TZendVal
 void ZEND_FASTCALL zif_unpackType(INTERNAL_FUNCTION_PARAMETERS) {
 	byte_buffer_reader_t reader = { 0 };
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(reader.buffer)
 	ZEND_PARSE_PARAMETERS_END_EX(return);
 
@@ -97,7 +97,7 @@ bool parseWriteTypeParams(zend_execute_data* execute_data, byte_buffer_writer_ze
 	zval* object_zv;
 	zend_long actualValue;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 2)
+	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS_EX(object_zv, byte_buffer_writer_ce, 0, 0)
 		Z_PARAM_LONG(actualValue)
 	ZEND_PARSE_PARAMETERS_END_EX(return false);
@@ -113,7 +113,7 @@ bool parseWriteTypeParams(zend_execute_data* execute_data, byte_buffer_writer_ze
 	zval* object_zv;
 	double actualValue;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 2)
+	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS_EX(object_zv, byte_buffer_writer_ce, 0, 0)
 		Z_PARAM_DOUBLE(actualValue)
 	ZEND_PARSE_PARAMETERS_END_EX(return false);
@@ -154,7 +154,7 @@ template<typename TValue>
 bool parsePackTypeParams(zend_execute_data* execute_data, TValue& value, std::type_identity<zend_long> zend_type) {
 	zend_long actualValue;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(actualValue)
 	ZEND_PARSE_PARAMETERS_END_EX(return false);
 
@@ -166,7 +166,7 @@ template<typename TValue>
 bool parsePackTypeParams(zend_execute_data* execute_data, TValue& value, std::type_identity<double> zend_type) {
 	double actualValue;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_DOUBLE(actualValue)
 	ZEND_PARSE_PARAMETERS_END_EX(return false);
 

@@ -76,7 +76,7 @@ WRITER_METHOD(__construct) {
 	zend_string* buffer = NULL;
 	byte_buffer_writer_zend_object* object;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 0, 1)
+	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(buffer)
 	ZEND_PARSE_PARAMETERS_END();
@@ -95,7 +95,7 @@ WRITER_METHOD(__construct) {
 }
 
 WRITER_METHOD(getData) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = WRITER_THIS();
 	RETURN_STRINGL(reinterpret_cast<const char*>(object->writer.buffer), object->writer.used);
@@ -105,7 +105,7 @@ WRITER_METHOD(writeByteArray) {
 	zend_string* value;
 	byte_buffer_writer_zend_object* object;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(value)
 		ZEND_PARSE_PARAMETERS_END();
 
@@ -123,7 +123,7 @@ WRITER_METHOD(writeByteArray) {
 }
 
 WRITER_METHOD(getOffset) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 	auto object = WRITER_THIS();
 	RETURN_LONG(object->writer.offset);
 }
@@ -131,7 +131,7 @@ WRITER_METHOD(getOffset) {
 WRITER_METHOD(setOffset) {
 	zend_long offset;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(offset)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -145,14 +145,14 @@ WRITER_METHOD(setOffset) {
 }
 
 WRITER_METHOD(getUsedLength) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = WRITER_THIS();
 	RETURN_LONG(object->writer.used);
 }
 
 WRITER_METHOD(getReservedLength) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = WRITER_THIS();
 	RETURN_LONG(object->writer.length); //don't count null terminator
@@ -161,7 +161,7 @@ WRITER_METHOD(getReservedLength) {
 WRITER_METHOD(reserve) {
 	zend_long zlength;
 
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(zlength)
 		ZEND_PARSE_PARAMETERS_END();
 
@@ -174,7 +174,7 @@ WRITER_METHOD(reserve) {
 }
 
 WRITER_METHOD(trim) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = WRITER_THIS();
 	if (object->writer.length > object->writer.used) {
@@ -184,7 +184,7 @@ WRITER_METHOD(trim) {
 }
 
 WRITER_METHOD(clear) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = WRITER_THIS();
 	object->writer.offset = 0;
@@ -192,7 +192,7 @@ WRITER_METHOD(clear) {
 }
 
 WRITER_METHOD(__serialize) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = WRITER_THIS();
 	array_init(return_value);
@@ -240,7 +240,7 @@ WRITER_METHOD(__unserialize) {
 }
 
 WRITER_METHOD(__debugInfo) {
-	zend_parse_parameters_none_throw();
+	zend_parse_parameters_none();
 
 	auto object = WRITER_THIS();
 	array_init(return_value);
@@ -255,7 +255,7 @@ zend_class_entry* init_class_ByteBufferWriter(void) {
 	byte_buffer_writer_ce->create_object = writer_new;
 
 	byte_buffer_writer_zend_object_handlers = *zend_get_std_object_handlers();
-	byte_buffer_writer_zend_object_handlers.offset = XtOffsetOf(byte_buffer_writer_zend_object, std);
+	byte_buffer_writer_zend_object_handlers.offset = offsetof(byte_buffer_writer_zend_object, std);
 	byte_buffer_writer_zend_object_handlers.clone_obj = writer_clone;
 	byte_buffer_writer_zend_object_handlers.free_obj = writer_free;
 	byte_buffer_writer_zend_object_handlers.compare = writer_compare_objects;
